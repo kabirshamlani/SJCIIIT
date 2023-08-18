@@ -1,0 +1,113 @@
+/* my styles */
+@font-face {
+    font-family: Objektiv-r;
+    src: url(../fonts/ObjektivMk1_Rg.woff);
+  }
+  @font-face {
+    font-family: Objektiv-m;
+    src: url(../fonts/ObjektivMk1_Md.woff);
+  }
+  @font-face {
+    font-family: Objektiv-b;
+    src: url(../fonts/ObjektivMk2_Bd.woff);
+  }
+
+*{ 
+    font-family:Objektiv-r;
+    font-size: 13px;
+}
+.intro-text{
+    font-family: Objektiv-r;
+    font-size: 18px; 
+}
+.intro-text b{
+    font-size: 18px;
+    font-family: Objektiv-b;
+}
+.intro-text2{
+    font-family: Objektiv-r;
+    font-size: 17px; 
+}
+.intro-text2 b{
+    font-size: 17px;
+    font-family: Objektiv-b;
+}
+.prime{
+    color:#005B99;
+}
+.intro-text div{
+    font-size: 16px;
+    color:#000;
+}
+.section-header1{
+    font-family: Objektiv-b;
+    font-size: 22px;
+    color:#005B99;
+    line-height: 140%;
+}
+.section-header2{
+    font-family: Objektiv-r;
+    font-size: 18px;
+    color:#005B99;
+    line-height: 140%;
+}
+.normal-text{
+    font-family: Objektiv-r;
+    color:#666;
+    font-size: 15px;
+}
+.grey-text{
+    font-family: Objektiv-r;
+    color:#666;
+    font-size: 13px;
+}
+.c-badge{
+    font-size: 13px;
+    background-color: #005B99;
+}
+.btn-primary{
+    background-color: #005B99;
+    border:1px solid #005B99;
+}
+body{
+    background: #f1f1f1;
+}
+.tb-resize{
+    max-width: 100%;
+    height: auto;
+    min-height: 196px;
+}
+.navbar-light{
+    background: #CC9930;
+}
+.navbar-light .navbar-nav .nav-link{
+    color:#fff;
+    font-size: 15px;
+    padding:6px 12px;
+}
+.bw{
+    background: #fff;
+}
+.by{
+    background: #F7F4F0;
+}
+.gold-border {
+    background: #efca86;
+    padding: 10px;
+    font-size: 20px;
+    color: #000000;
+}
+.bbl{
+    background: #0F3052;
+    color: #fff;
+}
+.footer-text{
+    font-size: 12px;
+}
+.video-block{
+    width:200px;
+    height: 100px;
+    float: left;
+    background: #fff;
+
+}
