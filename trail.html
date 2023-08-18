@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            flex-wrap: wrap;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        .day {
+            width: 100%;
+            border: 1px solid #ddd;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        h1 {
+            color: #444;
+            text-align: center;
+        }
+
+        h2 {
+            color: #555;
+            border-bottom: 2px solid #f2f2f2;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f6f6f6;
+        }
+
+        tr:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        th {
+            background-color: #001cf2;
+            color: white;
+        }
+
+        @media screen and (min-width: 600px) {
+            .day {
+                width: 48%;
+            }
+        }
+
+        @media screen and (min-width: 992px) {
+            .day {
+                width: 30%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Event Schedule</h1>
+    <div class="container"></div>
+
+    <script>
+        function createDaySchedule(dayData) {
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'day';
+
+            const dayTitle = document.createElement('h2');
+            dayTitle.textContent = dayData.title;
+            dayDiv.appendChild(dayTitle);
+
+            const table = document.createElement('table');
+            const headerRow = document.createElement('tr');
+            const timeHeader = document.createElement('th');
+            timeHeader.textContent = 'Time';
+            const eventsHeader = document.createElement('th');
+            eventsHeader.textContent = 'Events';
+            headerRow.appendChild(timeHeader);
+            headerRow.appendChild(eventsHeader);
+            table.appendChild(headerRow);
+
+            dayData.events.forEach(event => {
+                const eventRow = document.createElement('tr');
+                const timeCell = document.createElement('td');
+                timeCell.textContent = event.time || '';
+                const descriptionCell = document.createElement('td');
+                descriptionCell.textContent = event.description;
+                eventRow.appendChild(timeCell);
+                eventRow.appendChild(descriptionCell);
+                table.appendChild(eventRow);
+            });
+
+            dayDiv.appendChild(table);
+            return dayDiv;
+        }
+
+        fetch('http://localhost:8080/api/events')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.querySelector('.container');
+                data.forEach(dayData => {
+                    const daySchedule = createDaySchedule(dayData);
+                    container.appendChild(daySchedule);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching events data:', error);
+            });
+    </script>
+</body>
+
+</html>

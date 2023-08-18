@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Calendar</title>
+    <style>
+        .calendar {
+            border: 3px solid #ccc;
+            border-radius: 10px;
+            padding: 8px;
+            background: #240047;
+            display: grid;
+            grid-template-rows: repeat(3, auto);
+            grid-gap: 0px;
+            overflow: hidden;
+            max-width: 95%;
+            margin: 0 auto;
+        }
+
+        .row {
+            display: grid;
+            grid-gap: 10px;
+            align-items: start;
+            padding: 5px;
+        }
+
+        .row1 {
+            grid-template-columns: 1fr repeat(3, minmax(150px, 1fr));
+        }
+
+        .row2 {
+            grid-template-columns: repeat(6, minmax(150px, 1fr));
+        }
+
+        .row3 {
+            grid-template-columns: repeat(3, 2fr) repeat(2, 1fr);
+        }
+
+        .header {
+            padding: 20px;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 5px;
+            overflow: hidden;
+            text-align: center;
+            font-size: 2.5rem;
+            font-family: Brush Script MT, Brush Script Std, cursive;
+        }
+
+        .event {
+            perspective: 1000px;
+            height: 150px;
+            transition: all 0.3s;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .event-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: all 0.5s;
+        }
+
+        .event-front,
+        .event-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            backface-visibility: hidden;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            align-items: center;
+        }
+
+        .event-front {
+            background: #79cbc5;
+            color: #fff;
+        }
+
+        .event:nth-child(even) .event-front {
+            background: #7374b7;
+            color: #fff;
+        }
+
+        .event.today .event-front {
+            background: #09e178;
+            color: #fff;
+        }
+
+        .event.main-event .event-front {
+            background: #b97b36;
+            color: #fff;
+        }
+
+        .event-back {
+            transform: rotateY(180deg);
+            background: #f4f4f4;
+            color: #000;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            padding: 0px;
+            font-size: 1rem;
+            border-radius: 10px;
+        }
+
+        .event:hover .event-inner {
+            transform: rotateY(180deg);
+        }
+
+        .date-container {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .month {
+            writing-mode: vertical-rl;
+            text-align: center;
+            font-weight: bold;
+            transform: rotate(180deg);
+            line-height: 1.2;
+        }
+
+        .date {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .description {
+            text-align: center;
+            font-size: 1 rem;
+            overflow-wrap: break-word;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .description a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            .calendar {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            .row {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            .header {
+                font-size: 2rem;
+            }
+
+            .event {
+                margin-bottom: 0px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calendar">
+        <div class="row row1">
+            <div class="header">Silver Jubilee<p style="font-size: 1.2rem; font-family:Georgia, serif;"> EVENTS CALENDAR
+                </p>
+            </div>
+            <!-- Events will be dynamically populated here -->
+        </div>
+        <div class="row row2">
+            <!-- Events will be dynamically populated here -->
+        </div>
+        <div class="row row3">
+            <!-- Events will be dynamically populated here -->
+        </div>
+    </div>
+
+    <script>
+        function createEvent(eventData) {
+            const eventDiv = document.createElement('div');
+            eventDiv.classList.add('event');
+
+            const eventInnerDiv = document.createElement('div');
+            eventInnerDiv.classList.add('event-inner');
+
+            const eventFrontDiv = document.createElement('div');
+            eventFrontDiv.classList.add('event-front');
+            eventFrontDiv.id = eventData.id;
+
+            const dateContainerDiv = document.createElement('div');
+            dateContainerDiv.classList.add('date-container');
+
+            const monthDiv = document.createElement('div');
+            monthDiv.classList.add('month');
+            monthDiv.innerText = eventData.month;
+
+            const dateDiv = document.createElement('div');
+            dateDiv.classList.add('date');
+            dateDiv.innerText = eventData.date;
+
+            const descriptionDiv = document.createElement('div');
+            descriptionDiv.classList.add('description');
+
+            const link = document.createElement('a');
+            link.href = eventData.link;
+            link.target = "_blank";
+            link.innerText = eventData.description;
+
+            descriptionDiv.appendChild(link);
+
+            const eventBackDiv = document.createElement('div');
+            eventBackDiv.classList.add('event-back');
+            eventBackDiv.innerText = eventData.event_back;
+
+            dateContainerDiv.appendChild(monthDiv);
+            dateContainerDiv.appendChild(dateDiv);
+
+            eventFrontDiv.appendChild(dateContainerDiv);
+            eventFrontDiv.appendChild(descriptionDiv);
+
+            eventInnerDiv.appendChild(eventFrontDiv);
+            eventInnerDiv.appendChild(eventBackDiv);
+
+            eventDiv.appendChild(eventInnerDiv);
+            if (['2023-09-01', '2023-09-02', '2023-09-03'].includes(eventData.id)) {
+        eventDiv.classList.add('main-event');
+    }
+
+            return eventDiv;
+        }
+
+        fetch('http://localhost:8080/api/events1')
+            .then(response => response.json())
+            .then(eventsData => {
+                eventsData.forEach((eventData, index) => {
+                    let eventElement = createEvent(eventData);
+
+                    // Distribute events across rows based on index
+                    if (index < 3) {
+                        document.querySelector('.row1').appendChild(eventElement);
+                    } else if (index < 9) {
+                        document.querySelector('.row2').appendChild(eventElement);
+                    } else {
+                        document.querySelector('.row3').appendChild(eventElement);
+                    }
+                });
+
+                // Check today's date and add 'today' class if it matches an event date
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                var yyyy = today.getFullYear();
+
+                var todayId = yyyy + '-' + mm + '-' + dd;
+
+                var eventElement = document.getElementById(todayId);
+                if (eventElement) {
+                    eventElement.classList.add('today');
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching events:", error);
+            });
+    </script>
+</body>
+
+</html>
